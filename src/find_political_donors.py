@@ -26,7 +26,7 @@ class MedianFinder:
         with open(self.input_path, 'r') as f:
             for line in f:
                 fields = line.split('|')
-                if len(fields) != 21:
+                if len(fields) < 21:
                     continue    
                 CMTE_ID = fields[0]
                 ZIP_CODE = fields[10][0:5]
@@ -44,7 +44,8 @@ class MedianFinder:
                 self.records.append(record)
                 if OTHER_ID != 'empty' or not TRANSACTION_AMT.isdigit():
                     continue
-                
+                if not ZIP_CODE.isdigit():
+                    continue
                 if ZIP_KEY not in self.zip_dict:
                     self.zip_dict[ZIP_KEY] = [int(TRANSACTION_AMT)]
                 else:
